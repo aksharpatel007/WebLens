@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/favicon.ico">
+<title><%= summary.title %></title>
+<style>
+:root {
+  --bg: #f3efe8;
+  --panel: rgba(255,255,255,0.84);
+  --text: #1f2328;
+  --muted: #5d6670;
+  --line: rgba(31,35,40,0.12);
+  --accent: #0d6b5f;
+  --accent-soft: rgba(13,107,95,0.12);
+  --warn: #a35d00;
+  --warn-soft: rgba(163,93,0,0.12);
+  --error: #9f1d35;
+  --error-soft: rgba(159,29,53,0.12);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(13,107,95,0.16), transparent 28%),
+    radial-gradient(circle at right, rgba(195,129,66,0.18), transparent 24%),
+    linear-gradient(180deg, #faf6ef 0%, var(--bg) 100%);
+}
+a { color: inherit; }
+button { font: inherit; }
+main {
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+header h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1;
+}
+header p { margin: 8px 0 0; color: var(--muted); }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(31,35,40,0.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.74);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.action-button:hover:not(:disabled) {
+  background: rgba(255,255,255,0.9);
+}
+.action-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.card, section, .plugin-nav, .plugin-detail {
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.05);
+}
+.card { padding: 16px; }
+.card .label { color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.card .value { margin-top: 8px; font-size: 1.8rem; font-weight: 700; }
+section { padding: 18px; margin-top: 16px; }
+section h2, .plugin-nav h2, .plugin-detail h2 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.table-wrap { overflow: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.badge {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+.badge.warning { background: var(--warn-soft); color: var(--warn); }
+.badge.error { background: var(--error-soft); color: var(--error); }
+.badge.finished { background: var(--accent-soft); color: var(--accent); }
+.badge.failed { background: var(--error-soft); color: var(--error); }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+.plugin-nav, .plugin-detail { padding: 18px; }
+.plugin-list {
+  display: grid;
+  gap: 8px;
+}
+.plugin-link {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  text-decoration: none;
+  background: rgba(255,255,255,0.7);
+}
+.plugin-link.active {
+  border-color: rgba(13,107,95,0.32);
+  background: rgba(13,107,95,0.08);
+}
+.plugin-link strong {
+  font-size: 1rem;
+}
+.plugin-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.plugin-detail {
+  display: none;
+}
+.plugin-detail.active {
+  display: block;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.detail-block {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255,255,255,0.7);
+}
+.detail-block h3 {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+}
+.detail-items {
+  display: grid;
+  gap: 8px;
+}
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+.detail-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.detail-item span {
+  color: var(--muted);
+}
+.empty { color: var(--muted); font-style: italic; }
+.findings-count { margin-bottom: 12px; color: var(--muted); }
+.finding-row { cursor: pointer; }
+.finding-row:hover td, .finding-row.is-open td { background: rgba(13,107,95,0.06); }
+.finding-row:focus-visible { outline: 2px solid rgba(13,107,95,0.35); outline-offset: -2px; }
+.finding-detail-row { display: none; }
+.finding-detail-row.is-open { display: table-row; }
+.finding-detail-panel {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.72);
+}
+.finding-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.finding-detail-block {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+}
+.finding-detail-block h3 {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.finding-detail-block p, .finding-detail-block pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.finding-detail-block pre { font-family: "IBM Plex Mono", "SFMono-Regular", monospace; font-size: 0.85rem; }
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 720px) {
+  header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1><%= summary.title %></h1>
+      <p><%= summary.subtitle %></p>
+    </div>
+    <div class="header-actions">
+      <button id="shutdown-server-button" class="action-button" type="button">Stop Web Server</button>
+      <div class="badge <%= summary.status === 'failed' ? 'failed' : 'finished' %>"><%= summary.status %></div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <% for (const card of summary.overviewCards) { %>
+      <article class="card">
+        <div class="label"><%= card.label %></div>
+        <div class="value"><%= formatValue(card.value) %></div>
+      </article>
+    <% } %>
+  </div>
+
+  <section>
+    <h2>Run Details</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <% for (const item of summary.runDetails) { %>
+            <tr>
+              <th><%= item.label %></th>
+              <td>
+                <% if (isLinkValue(item.value)) { %>
+                  <a href="<%= item.value.href %>"><%= item.value.label %></a>
+                <% } else if (isLinkListValue(item.value)) { %>
+                  <% for (const link of item.value) { %>
+                    <div><a href="<%= link.href %>"><%= link.label %></a></div>
+                  <% } %>
+                <% } else { %>
+                  <%= formatValue(item.value) %>
+                <% } %>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="layout">
+    <aside class="plugin-nav">
+      <h2>Audit Plugins</h2>
+      <% if (summary.auditPlugins.length === 0) { %>
+        <p class="empty">No audit plugin summary is available.</p>
+      <% } else { %>
+        <div class="plugin-list">
+          <% for (const plugin of summary.auditPlugins) { %>
+            <a class="plugin-link" data-plugin-link href="#<%= pluginAnchor(plugin.plugin) %>">
+              <strong><%= plugin.label %></strong>
+              <div class="plugin-meta">
+                <span class="badge"><%= plugin.treatedUrls %> resources</span>
+                <span class="badge"><%= plugin.infos %> infos</span>
+                <span class="badge warning"><%= plugin.warnings %> warnings</span>
+                <span class="badge error"><%= plugin.errors %> errors</span>
+              </div>
+            </a>
+          <% } %>
+        </div>
+      <% } %>
+    </aside>
+
+    <div>
+      <% for (const detail of summary.pluginDetails) { %>
+        <section id="<%= pluginAnchor(detail.plugin) %>" class="plugin-detail" data-plugin-panel>
+          <h2><%= detail.label %></h2>
+          <div class="detail-grid">
+            <% for (const section of detail.sections) { %>
+              <div class="detail-block">
+                <h3><%= section.title %></h3>
+                <div class="detail-items">
+                  <% for (const item of section.items) { %>
+                    <div class="detail-item">
+                      <span><%= item.label %></span>
+                      <strong>
+                        <% if (isLinkValue(item.value)) { %>
+                          <a href="<%= item.value.href %>"><%= item.value.label %></a>
+                        <% } else if (isLinkListValue(item.value)) { %>
+                          <% for (const link of item.value) { %>
+                            <div><a href="<%= link.href %>"><%= link.label %></a></div>
+                          <% } %>
+                        <% } else { %>
+                          <%= formatValue(item.value) %>
+                        <% } %>
+                      </strong>
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            <% } %>
+          </div>
+
+          <h2>Findings</h2>
+          <p class="findings-count"><%= detail.findings.length %> item(s)</p>
+          <% if (detail.findings.length === 0) { %>
+            <p class="empty">No findings were recorded for this plugin.</p>
+          <% } else { %>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Code</th>
+                    <th>URL</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (const finding of detail.findings) { %>
+                    <tr class="finding-row" data-finding-row tabindex="0" aria-expanded="false">
+                      <td>
+                        <span class="badge <%= finding.type === 'error' ? 'error' : finding.type === 'warning' ? 'warning' : '' %>">
+                          <%= finding.type %>
+                        </span>
+                      </td>
+                      <td><%= finding.code %></td>
+                      <td><%= finding.url ?? '' %></td>
+                      <td><%= finding.message %></td>
+                    </tr>
+                    <tr class="finding-detail-row" data-finding-detail-row>
+                      <td colspan="4">
+                        <div class="finding-detail-panel">
+                          <div class="finding-detail-grid">
+                            <div class="finding-detail-block">
+                              <h3>Plugin</h3>
+                              <p><%= detail.label %></p>
+                            </div>
+                            <div class="finding-detail-block">
+                              <h3>Severity</h3>
+                              <p><%= finding.type %></p>
+                            </div>
+                            <div class="finding-detail-block">
+                              <h3>Category</h3>
+                              <p><%= finding.category || '' %></p>
+                            </div>
+                            <div class="finding-detail-block">
+                              <h3>Code</h3>
+                              <p><%= finding.code %></p>
+                            </div>
+                            <div class="finding-detail-block">
+                              <h3>URL</h3>
+                              <p><%= finding.url ?? '' %></p>
+                            </div>
+                            <div class="finding-detail-block">
+                              <h3>Message</h3>
+                              <p><%= finding.message %></p>
+                            </div>
+                            <div class="finding-detail-block">
+                              <h3>Data</h3>
+                              <pre><%= JSON.stringify(finding.data ?? null, null, 2) %></pre>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </section>
+      <% } %>
+    </div>
+  </div>
+</main>
+<script>
+const links = Array.from(document.querySelectorAll('[data-plugin-link]'));
+const panels = Array.from(document.querySelectorAll('[data-plugin-panel]'));
+const shutdownServerButton = document.getElementById('shutdown-server-button');
+let shutdownRequested = false;
+
+function activate(hash) {
+  const normalizedHash = hash && hash.length > 1 ? hash : (panels[0] ? `#${panels[0].id}` : '');
+
+  panels.forEach((panel) => {
+    panel.classList.toggle('active', normalizedHash === `#${panel.id}`);
+  });
+
+  links.forEach((link) => {
+    link.classList.toggle('active', link.getAttribute('href') === normalizedHash);
+  });
+}
+
+window.addEventListener('hashchange', () => activate(window.location.hash));
+activate(window.location.hash);
+
+async function requestServerShutdown() {
+  if (shutdownRequested) {
+    return;
+  }
+
+  shutdownRequested = true;
+  shutdownServerButton.disabled = true;
+  shutdownServerButton.textContent = 'Stopping Web Server...';
+
+  try {
+    await fetch('/api/shutdown', { method: 'POST', cache: 'no-store' });
+  } catch (_error) {
+    shutdownRequested = false;
+    shutdownServerButton.disabled = false;
+    shutdownServerButton.textContent = 'Stop Web Server';
+  }
+}
+
+shutdownServerButton.addEventListener('click', requestServerShutdown);
+
+for (const row of Array.from(document.querySelectorAll('[data-finding-row]'))) {
+  const detailRow = row.nextElementSibling;
+  if (!detailRow || !detailRow.hasAttribute('data-finding-detail-row')) {
+    continue;
+  }
+
+  const toggle = function () {
+    const isOpen = detailRow.classList.toggle('is-open');
+    row.classList.toggle('is-open', isOpen);
+    row.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  };
+
+  row.addEventListener('click', toggle);
+  row.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggle();
+    }
+  });
+}
+</script>
+</body>
+</html>

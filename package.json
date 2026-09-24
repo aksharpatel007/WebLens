@@ -1,0 +1,45 @@
+{
+    "name": "playwright-site-crawler",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "tsc -p tsconfig.json && node -e \"require('fs').rmSync('dist/resources', {recursive:true, force:true}); require('fs').mkdirSync('dist/resources', {recursive:true}); require('fs').cpSync('src/resources', 'dist/resources', {recursive:true})\"",
+        "start": "node dist/index.js",
+        "dev:backend": "tsx src/index.ts",
+        "dev:frontend": "npm run dev --prefix frontend",
+        "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier . --write",
+        "format:check": "prettier . --check",
+        "test": "node --import tsx --test tests/*.test.ts"
+    },
+    "dependencies": {
+        "@axe-core/playwright": "^4.9.0",
+        "@types/ejs": "^3.1.5",
+        "better-sqlite3": "^12.8.0",
+        "ejs": "^5.0.1",
+        "exceljs": "^4.4.0",
+        "franc": "^6.2.0",
+        "mammoth": "^1.12.0",
+        "pdfjs-dist": "^5.5.207",
+        "playwright": "1.59.1",
+        "textract": "https://github.com/abdulR712/textract/archive/9b7800fafbe2463b747c393da37bc29de9fee029.tar.gz"
+    },
+    "devDependencies": {
+        "@types/better-sqlite3": "^7.6.13",
+        "@types/node": "^25.3.5",
+        "@typescript-eslint/eslint-plugin": "^8.56.1",
+        "@typescript-eslint/parser": "^8.56.1",
+        "concurrently": "^10.0.5",
+        "eslint": "^10.0.3",
+        "eslint-config-prettier": "^10.1.8",
+        "prettier": "^3.8.1",
+        "tsx": "^4.23.12",
+        "typescript": "^5.9.3"
+    },
+    "overrides": {
+        "adm-zip": "^0.6.0",
+        "uuid": "^11.1.1"
+    }
+}

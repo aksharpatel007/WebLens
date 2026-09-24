@@ -1,5 +1,5 @@
 {
-    "name": "playwright-site-crawler",
+    "name": "weblens",
     "private": true,
     "type": "module",
     "scripts": {

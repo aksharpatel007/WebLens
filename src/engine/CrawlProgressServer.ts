@@ -147,7 +147,7 @@ export class CrawlProgressServer {
         }
 
         return renderCrawlProgressPage({
-            title: "Web Auditor Crawl Monitor",
+            title: "WebLens Crawl Monitor",
             statusApiPath: "/api/status",
             refreshIntervalMs: 2000,
             gracefulStopApiPath: "/api/request-graceful-stop",

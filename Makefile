@@ -15,7 +15,7 @@ CURRENT_USERNAME            := $(shell id -u -n)
 CURRENT_HOMEDIR             := $${HOME}
 CURRENT_DIR                 := $(shell pwd)
 
-DOCKER_IMAGE_NAME           ?= docker.io/elasticms/web-auditor
+DOCKER_IMAGE_NAME           ?= docker.io/weblens/weblens
 
 DOCKER_PLATFORM             ?= linux/amd64
 DOCKER_BUILDER              ?= default
@@ -28,7 +28,7 @@ docker-build: ## docker-build
 	@docker buildx build --progress=plain --no-cache \
 		--tag ${DOCKER_IMAGE_NAME} .
 
-docker-bake: ## docker-bake DOCKER_PLATFORM="linux/amd64,linux/arm64" DOCKER_BUILDER="cloud-remote" DOCKER_OUTPUT="type=registry" DOCKER_IMAGE_NAME="elasticms/web-auditor"
+docker-bake: ## docker-bake DOCKER_PLATFORM="linux/amd64,linux/arm64" DOCKER_BUILDER="cloud-remote" DOCKER_OUTPUT="type=registry" DOCKER_IMAGE_NAME="weblens/weblens"
 	@echo "\n-- Running Docker bake --\n"
 	@docker bake --progress=plain --no-cache \
 		--set *.platform=${DOCKER_PLATFORM} \

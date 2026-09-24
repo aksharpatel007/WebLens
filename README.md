@@ -1,6 +1,6 @@
-# Web Auditor (Playwright)
+# WebLens
 
-Web Auditor is an open-source website auditing tool designed to analyze and improve the quality of informational websites.
+WebLens is an open-source website auditing tool designed to analyze and improve the quality of informational websites.
 
 Built on top of Playwright, it crawls websites and runs a series of customizable plugins to detect issues across multiple domains such as accessibility, SEO, performance, and best practices.
 
@@ -13,13 +13,13 @@ Built on top of Playwright, it crawls websites and runs a series of customizable
 - Performance insights (Lighthouse-like audits)
 - Security checks (SSL, headers, certificates)
 - Media analysis (images size, metadata, etc.)
-- Resource analysis (PDF, downloads, MIME types)
+- Resource analysis (PDF, downloads, MIME types)x`
 - Structured JSON reports (one per URL)
 - Stop and resume audits
   
 ## Plugin System
 
-Web Auditor is built around a flexible plugin system. Each plugin can:
+WebLens is built around a flexible plugin system. Each plugin can:
 
 - Analyze pages or resources
 - Emit findings categorized (SEO, A11y, Security, etc.)
@@ -62,7 +62,7 @@ The tool can be configured using [environment variables](#environment-variables)
 
 ## Installing Playwright and launch an audit locally
 
-To use Web Auditor locally, you first need to install Playwright and its required browsers. After cloning the repository, install the project dependencies using:
+To use WebLens locally, you first need to install Playwright and its required browsers. After cloning the repository, install the project dependencies using:
 
 ```bash
 npm install
@@ -81,7 +81,7 @@ This command downloads the necessary browser binaries (Chromium, Firefox, and We
 npx playwright install-deps
 ```
 
-Once completed, Playwright is ready to use and the Web Auditor can start crawling and auditing websites. You can start both the backend engine and the React frontend simultaneously by running:
+Once completed, Playwright is ready to use and WebLens can start crawling and auditing websites. You can start both the backend engine and the React frontend simultaneously by running:
 
 ```shell
 npm run dev
@@ -100,7 +100,7 @@ You can also use `RESUME_RUN_ID` to regenerate `report.json`, `report.xlsx` and 
 ## Build & run a docker image locally
 
 ```shell
-docker build -t elasticms/web-auditor .
+docker build -t weblens/weblens .
 
 docker run --rm \
   -v $(pwd)/reports:/opt/reports \
@@ -111,7 +111,7 @@ docker run --rm \
   -e CONCURRENCY="2" \
   -e RATE_LIMIT_MS="500" \
   -e CHECK_EXTERNAL_LINKS="false" \
-  elasticms/web-auditor
+  weblens/weblens
 ```
 
 ## Environment Variables
@@ -137,7 +137,7 @@ docker run --rm -it \
   -e RATE_LIMIT_MS="100" \
   -e FINDING_CODES_BLOCKLIST="MAIL_OR_TEL_LINK,INLINE_SCRIPT_TAG" \
   -e DISABLED_PLUGINS="robots-txt,sitemap,security-headers,tls-certificate,ip-support" \
-  elasticms/web-auditor:latest
+  weblens/weblens:latest
 ```
 
 You can define them directly in the shell, in a `.env` file, or via Docker environment variables.

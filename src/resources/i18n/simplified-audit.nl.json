@@ -1,7 +1,7 @@
 {
     "htmlLang": "nl",
     "pageTitle": "Vereenvoudigd auditrapport",
-    "lead": "Beknopte versie voor CMS-publicatie, gebaseerd op EN301 549-gerichte toegankelijkheidsbevindingen uit Web Auditor.",
+    "lead": "Beknopte versie voor CMS-publicatie, gebaseerd op EN301 549-gerichte toegankelijkheidsbevindingen uit WebLens.",
     "copyButton": "HTML-inhoud kopiëren",
     "copySuccess": "De HTML-inhoud werd naar het klembord gekopieerd.",
     "copyError": "Kopiëren is mislukt. Controleer de browserrechten.",

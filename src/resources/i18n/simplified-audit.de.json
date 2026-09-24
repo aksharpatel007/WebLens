@@ -1,7 +1,7 @@
 {
     "htmlLang": "de",
     "pageTitle": "Vereinfachter Auditbericht",
-    "lead": "Kompakte Fassung für die Veröffentlichung im CMS auf Basis von EN301 549-orientierten Barrierefreiheitsbefunden aus Web Auditor.",
+    "lead": "Kompakte Fassung für die Veröffentlichung im CMS auf Basis von EN301 549-orientierten Barrierefreiheitsbefunden aus WebLens.",
     "copyButton": "HTML-Inhalt kopieren",
     "copySuccess": "Der HTML-Inhalt wurde in die Zwischenablage kopiert.",
     "copyError": "Das Kopieren ist fehlgeschlagen. Bitte die Browserberechtigungen prüfen.",

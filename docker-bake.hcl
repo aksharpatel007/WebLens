@@ -7,7 +7,7 @@ variable "VERSION" {
 }
 
 variable "DOCKER_IMAGE_NAME" {
-  default = "elasticms/web-auditor"
+  default = "weblens/weblens"
 }
 
 variable "DOCKER_IMAGE_TAG" {
@@ -63,10 +63,10 @@ target "default" {
 
   labels = {
     "org.opencontainers.image.created"       = "${timestamp()}"
-    "org.opencontainers.image.title"         = "Web Auditor"
+    "org.opencontainers.image.title"         = "WebLens"
     "org.opencontainers.image.description"   = "Open-source website auditing tool designed to analyze and improve the quality of informational websites."
     "org.opencontainers.image.url"           = "https://www.elasticms.fgov.be"
-    "org.opencontainers.image.source"        = "https://github.com/ems-project/web-auditor-playwright"
+    "org.opencontainers.image.source"        = "https://github.com/ems-project/weblens"
     "org.opencontainers.image.version"       = VERSION
     "org.opencontainers.image.revision"      = GIT_HASH
     "org.opencontainers.image.vendor"        = "elasticMS"

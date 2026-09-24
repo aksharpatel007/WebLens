@@ -4,7 +4,7 @@ Guidance for AI agents working on this project.
 
 ## Project Context
 
-Web Auditor is an open-source website auditing tool built on Playwright. The crawler loads pages, detects resources, and runs specialized plugins to produce findings, JSON/XLSX reports, a sitemap, and HTML summary pages.
+WebLens is an open-source website auditing tool built on Playwright. The crawler loads pages, detects resources, and runs specialized plugins to produce findings, JSON/XLSX reports, a sitemap, and HTML summary pages.
 
 The public behavior and environment variables are documented in `README.md`. Treat the README as the functional source of truth before adding or changing any user-facing option.
 

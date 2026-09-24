@@ -53,7 +53,7 @@ export class XlsxExporter {
     public constructor(options: XlsxExporterOptions) {
         this.options = {
             outputPath: options.outputPath,
-            creator: options.creator ?? "web-auditor-playwright",
+            creator: options.creator ?? "weblens",
             reportsSheetName: options.reportsSheetName ?? "reports",
             pluginsSheetName: options.pluginsSheetName ?? "plugins",
             issuesSheetName: options.issuesSheetName ?? "issues",
@@ -68,7 +68,7 @@ export class XlsxExporter {
         workbook.creator = this.options.creator;
         workbook.created = new Date();
         workbook.modified = new Date();
-        workbook.title = "Web Auditor report";
+        workbook.title = "WebLens report";
         workbook.subject = "Export of console JSON report";
 
         this.addReportsSheet(workbook, report.reports);

@@ -1,7 +1,7 @@
 {
     "htmlLang": "fr",
     "pageTitle": "Rapport d’audit simplifié",
-    "lead": "Version synthétique orientée publication CMS, basée sur les constats accessibilité alignés EN301 549 produits par Web Auditor.",
+    "lead": "Version synthétique orientée publication CMS, basée sur les constats accessibilité alignés EN301 549 produits par WebLens.",
     "copyButton": "Copier le contenu HTML",
     "copySuccess": "Le contenu HTML a été copié dans le presse-papier.",
     "copyError": "La copie a échoué. Vérifiez les permissions du navigateur.",

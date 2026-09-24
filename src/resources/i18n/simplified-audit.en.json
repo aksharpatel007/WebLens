@@ -1,7 +1,7 @@
 {
     "htmlLang": "en",
     "pageTitle": "Simplified Audit Report",
-    "lead": "Compact CMS-ready version based on EN301 549-oriented accessibility findings produced by Web Auditor.",
+    "lead": "Compact CMS-ready version based on EN301 549-oriented accessibility findings produced by WebLens.",
     "copyButton": "Copy HTML content",
     "copySuccess": "The HTML content has been copied to the clipboard.",
     "copyError": "Copy failed. Please check browser permissions.",
